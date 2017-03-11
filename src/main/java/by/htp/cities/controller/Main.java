@@ -19,7 +19,7 @@ public class Main {
 	ArrayList<City> cities = null;
 	CitiesDao dao = new CitiesDaoImpl();
 	try {
-	    cities = dao.readInfo("resources/allCapitals.txt");
+	    cities = dao.readInfo("src/main/resources/allCapitals.txt");
 	} catch (DaoException e) {
 	    new DaoException("Cannot read from a file:", e);
 	}
