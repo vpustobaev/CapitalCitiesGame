@@ -21,7 +21,7 @@ public class Main {
 	try {
 	    cities = dao.readInfo("resources/allCapitals.txt");
 	} catch (DaoException e) {
-	    new DaoException("Cannot read from a file:", e);
+	    new DaoException("Cannot read fro m a file:", e);
 	}
 
 	Game newGame = new Game(cities);
