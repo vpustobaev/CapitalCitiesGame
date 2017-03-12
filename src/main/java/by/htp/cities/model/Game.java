@@ -2,6 +2,8 @@ package by.htp.cities.model;
 
 import java.util.ArrayList;
 
+import by.htp.cities.exception.IllegalCityNameException;
+
 public class Game {
 
     private ArrayList<City> cities;
@@ -11,43 +13,8 @@ public class Game {
 	this.cities = cities;
     }
 
-    public GameStatus checkGameStatus(Player player, Game game, ArrayList<City> cities,
-	    PlayerOperationResponse responseFromPlayer, String cityFromPlayer, char firstLetterFromPlayer) {
-
-	DataCorrectness respond = null;
-	GameStatus status = null;
-
-	if (responseFromPlayer.getOperationResult() == PlayerOperation.GIVE_UP) {
-	    System.out.println(player.toString() + " gives up. The game is over. " + player.toString() + " lost.");
-	    return status = GameStatus.GAME_OVER;
-	}
-
-	else {
-
-	    respond = game.validation(responseFromPlayer.getCity(), cities, firstLetterFromPlayer);
-
-	    switch (respond) {
-
-	    case WRONG_FIRST_LETTER:
-		status = GameStatus.START;
-		break;
-	    case EXISTS:
-		status = GameStatus.START;
-		break;
-	    case INVALID:
-		status = GameStatus.START;
-		break;
-	    case VALID:
-		status = GameStatus.NEXT_TURN;
-		break;
-
-	    }
-	}
-
-	return status;
-    }
-
-    public DataCorrectness validation(String input, ArrayList<City> cities, char firstLetter) {
+    public DataCorrectness validation(String input, ArrayList<City> cities, char firstLetter)
+	    throws IllegalCityNameException {
 
 	boolean isValid = false;
 
@@ -93,6 +60,46 @@ public class Game {
 	    return DataCorrectness.INVALID;
 	}
 	return DataCorrectness.VALID;
+    }
+
+    public GameStatus checkGameStatus(Player player, Game game, ArrayList<City> cities,
+	    PlayerOperationResponse responseFromPlayer, String cityFromPlayer, char firstLetterFromPlayer) {
+
+	DataCorrectness respond = null;
+	GameStatus status = null;
+
+	if (responseFromPlayer.getOperationResult() == PlayerOperation.GIVE_UP) {
+	    System.out.println(player.toString() + " gives up. The game is over. " + player.toString() + " lost.");
+	    return status = GameStatus.GAME_OVER;
+	}
+
+	else {
+
+	    try {
+		respond = game.validation(responseFromPlayer.getCity(), cities, firstLetterFromPlayer);
+	    } catch (IllegalCityNameException e) {
+		new IllegalCityNameException();
+	    }
+
+	    switch (respond) {
+
+	    case WRONG_FIRST_LETTER:
+		status = GameStatus.START;
+		break;
+	    case EXISTS:
+		status = GameStatus.START;
+		break;
+	    case INVALID:
+		status = GameStatus.START;
+		break;
+	    case VALID:
+		status = GameStatus.NEXT_TURN;
+		break;
+
+	    }
+	}
+
+	return status;
     }
 
     public ArrayList<City> getUsedCities() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import by.htp.cities.dao.DaoException;
 import by.htp.cities.dao.CitiesDao;
 import by.htp.cities.dao.impl.CitiesDaoImpl;
+import by.htp.cities.exception.IllegalCityNameException;
 import by.htp.cities.model.City;
 import by.htp.cities.model.ComputerPlayer;
 import by.htp.cities.model.ConsolePlayer;
@@ -23,6 +24,7 @@ public class Main {
 	} catch (DaoException e) {
 	    new DaoException("Cannot read from a file:", e);
 	}
+	
 
 	Game newGame = new Game(cities);
 
@@ -34,13 +36,17 @@ public class Main {
 	String cityFromPlayer2 = new String();
 	char firstLetterFromPlayer2 = 0;
 
-	GameStatus status = null;
-
 	outer: while (true) {
 
-	    PlayerOperationResponse responseFromPlayer2 = player2.askForCity(firstLetterFromPlayer1);
+	    PlayerOperationResponse responseFromPlayer2 = null;
+	    try {
+		responseFromPlayer2 = player2.askForCity(firstLetterFromPlayer1);
+	    } catch (IllegalCityNameException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 
-	    status = newGame.checkGameStatus(player2, newGame, cities, responseFromPlayer2, cityFromPlayer1,
+	    GameStatus status = newGame.checkGameStatus(player2, newGame, cities, responseFromPlayer2, cityFromPlayer1,
 		    firstLetterFromPlayer1);
 	    if (status == GameStatus.GAME_OVER) {
 		return;
@@ -53,7 +59,13 @@ public class Main {
 
 	    firstLetterFromPlayer2 = responseFromPlayer2.getCity().charAt(responseFromPlayer2.getCity().length() - 1);
 
-	    PlayerOperationResponse responseFromPlayer1 = player1.askForCity(firstLetterFromPlayer2);
+	    PlayerOperationResponse responseFromPlayer1 = null;
+	    try {
+		responseFromPlayer1 = player1.askForCity(firstLetterFromPlayer2);
+	    } catch (IllegalCityNameException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 
 	    status = newGame.checkGameStatus(player1, newGame, cities, responseFromPlayer1, cityFromPlayer2,
 		    firstLetterFromPlayer2);
