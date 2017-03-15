@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import by.htp.cities.dao.DaoException;
-import by.htp.cities.model.City;
+import by.htp.cities.entity.City;
 import by.htp.cities.dao.CitiesDao;
 
 public class CitiesDaoImpl implements CitiesDao {
@@ -36,11 +36,11 @@ public class CitiesDaoImpl implements CitiesDao {
 
 		} catch (FileNotFoundException e) {
 
-			throw new DaoException("problem  with", e);
+			new DaoException("problem  with", e);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new DaoException("problem  with", e);
+			new DaoException("problem  with", e);
 		}
 
 		return cities;

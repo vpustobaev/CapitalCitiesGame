@@ -2,7 +2,7 @@ package by.htp.cities.dao;
 
 import java.util.ArrayList;
 
-import by.htp.cities.model.City;
+import by.htp.cities.entity.City;
 
 public interface CitiesDao {
 

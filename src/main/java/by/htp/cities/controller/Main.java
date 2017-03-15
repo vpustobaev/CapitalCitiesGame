@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import by.htp.cities.dao.DaoException;
 import by.htp.cities.dao.CitiesDao;
 import by.htp.cities.dao.impl.CitiesDaoImpl;
+import by.htp.cities.entity.City;
+import by.htp.cities.entity.ComputerPlayer;
+import by.htp.cities.entity.ConsolePlayer;
+import by.htp.cities.entity.Game;
+import by.htp.cities.entity.PlayerOperationResponse;
 import by.htp.cities.exception.IllegalCityNameException;
-import by.htp.cities.model.City;
-import by.htp.cities.model.ComputerPlayer;
-import by.htp.cities.model.ConsolePlayer;
-import by.htp.cities.model.Game;
 import by.htp.cities.model.Player;
-import by.htp.cities.model.PlayerOperationResponse;
 import by.htp.cities.model.GameStatus;
 
 public class Main {
@@ -24,7 +24,6 @@ public class Main {
 	} catch (DaoException e) {
 	    new DaoException("Cannot read from a file:", e);
 	}
-	
 
 	Game newGame = new Game(cities);
 
@@ -42,8 +41,7 @@ public class Main {
 	    try {
 		responseFromPlayer2 = player2.askForCity(firstLetterFromPlayer1);
 	    } catch (IllegalCityNameException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		new IllegalCityNameException(e);
 	    }
 
 	    GameStatus status = newGame.checkGameStatus(player2, newGame, cities, responseFromPlayer2, cityFromPlayer1,
@@ -63,8 +61,7 @@ public class Main {
 	    try {
 		responseFromPlayer1 = player1.askForCity(firstLetterFromPlayer2);
 	    } catch (IllegalCityNameException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		new IllegalCityNameException(e);
 	    }
 
 	    status = newGame.checkGameStatus(player1, newGame, cities, responseFromPlayer1, cityFromPlayer2,
